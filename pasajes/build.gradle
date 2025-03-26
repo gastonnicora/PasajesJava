@@ -1,0 +1,44 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.4.4'
+	id 'io.spring.dependency-management' version '1.1.7'
+}
+
+group = 'com.gastonnicora'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(21)
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+ 	// Dependencia para Spring Boot Starter Data JPA
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    
+    // Dependencia para el conector MySQL
+   	implementation 'mysql:mysql-connector-java:8.0.32'
+   	
+   	implementation 'org.hibernate:hibernate-core:6.6.11.Final'
+
+    // Dependencia para Spring Boot Starter Web (si necesitas crear una API REST)
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+	
+	implementation 'org.springframework.boot:spring-boot-starter-data-elasticsearch'
+	implementation 'org.springframework.boot:spring-boot-starter-data-couchbase'
+	
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+
+	
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
