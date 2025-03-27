@@ -1,7 +1,7 @@
 package com.gastonnicora.pasajes.controller;
 
 
-import com.gastonnicora.pasajes.model.PasajeModel;
+import com.gastonnicora.pasajes.model.Pasaje;
 import com.gastonnicora.pasajes.repository.PasajeRepository;
 
 import java.util.List;
@@ -28,7 +28,7 @@ public class PasajeController {
     // Mostrar todos los pasajes
     @GetMapping({"/",""})
     @ResponseBody
-    public List<PasajeModel> verPasajes(Model model) {
+    public List<Pasaje> verPasajes(Model model) {
     	return pasajeRepository.findAll();
         // model.addAttribute("pasajes", pasajeRepository.findAll());
         // return "pasajes/lista"; // vista con lista de pasajes
@@ -37,13 +37,13 @@ public class PasajeController {
     // Mostrar formulario para agregar un pasaje
     @GetMapping("/nuevo")
     public String mostrarFormulario(Model model) {
-        model.addAttribute("pasaje", new PasajeModel());
+        model.addAttribute("pasaje", new Pasaje());
         return "pasajes/formulario"; // Vista para agregar un nuevo pasaje
     }
 
     // Guardar un nuevo pasaje
     @PostMapping("/guardar")
-    public String guardarPasaje(PasajeModel pasaje) {
+    public String guardarPasaje(Pasaje pasaje) {
         pasajeRepository.save(pasaje);
         return "redirect:/pasajes/"; // Redirige a la lista de pasajes
     }
@@ -51,7 +51,7 @@ public class PasajeController {
     // Mostrar detalle de un pasaje específico
     @GetMapping("/{id}")
     public String verDetalle(@PathVariable("id") Long id, Model model) {
-        PasajeModel pasaje = pasajeRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Pasaje no encontrado"));
+        Pasaje pasaje = pasajeRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Pasaje no encontrado"));
         model.addAttribute("pasaje", pasaje);
         return "pasajes/detalle"; // Vista de detalle del pasaje
     }
