@@ -1,6 +1,8 @@
 package com.gastonnicora.pasajes.controller;
 
 import com.gastonnicora.pasajes.model.Usuario;
+
+import jakarta.validation.Valid;
 import com.gastonnicora.pasajes.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -9,6 +11,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api/usuarios")
 public class UsuarioController {
@@ -16,9 +25,11 @@ public class UsuarioController {
     @Autowired
     private UsuarioService usuarioService;
 
+    
+   
     // Crear un nuevo usuario
     @PostMapping
-    public ResponseEntity<Usuario> createUsuario(@RequestBody Usuario usuario) {
+    public ResponseEntity<Usuario> createUsuario(@RequestBody  @Valid Usuario usuario) {
         return ResponseEntity.ok(usuarioService.createUsuario(usuario));
     }
 

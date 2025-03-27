@@ -3,6 +3,7 @@ package com.gastonnicora.pasajes.service;
 import com.gastonnicora.pasajes.model.Usuario;
 import com.gastonnicora.pasajes.utils.HashPassword;
 import com.gastonnicora.pasajes.repository.UsuarioRepository;
+import com.gastonnicora.pasajes.exception.ValidationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,13 @@ public class UsuarioService {
 
     // Crear un nuevo usuario
     public Usuario createUsuario(Usuario usuario) {
+        if (!usuario.getPass().equals(usuario.getConfirmarPass())) {
+            throw new ValidationException("confirmPass","Las contraseñas no coinciden");
+        }
+        usuario.setConfirmarPass(null);
+    	if (usuarioRepository.findByEmailAndBorradoFalse(usuario.getEmail()) != null) {
+            throw new ValidationException("email","El email " + usuario.getEmail() + " ya está registrado.");
+        }
         usuario.setPass(HashPassword.hashPassword(usuario.getPass()));
         return usuarioRepository.save(usuario);
     }
